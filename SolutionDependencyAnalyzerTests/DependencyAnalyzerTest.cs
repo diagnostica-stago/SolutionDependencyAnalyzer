@@ -1,0 +1,31 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SolutionDependencyAnalyzer;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+
+namespace SolutionDependencyAnalyzerTests
+{
+    [TestClass]
+    public class DependencyAnalyzerTest
+    {
+        /// <summary>
+        /// Very basic test, to ensure DependencyAnalyzer is not completely broken
+        /// It will be hard enogh to maintain as is, so I didn't test the contents of the various properties
+        /// </summary>
+        [TestMethod]
+        public async Task BasicSolutionAnalysis()
+        {
+            // TODO: Create a solution just for the tests?
+            var currentDir = AppContext.BaseDirectory;
+            var solutionDir = Path.GetFullPath(Path.Combine(currentDir, @"..\..\..\..\"));
+            var solution = Path.Combine(solutionDir, "SolutionDependencyAnalyzer.sln");
+            var analyzer = new DependencyAnalyzer(solution);
+            await analyzer.AnalyzeAsync();
+            Assert.IsTrue(analyzer.PackageResults.Count == 7);
+            Assert.IsTrue(analyzer.PackagesByProject.Count == 2);
+            Assert.IsTrue(analyzer.ProjectResults.Count == 1);
+            Assert.IsTrue(analyzer.ProjectsByPackage.Count == 7);
+        }
+    }
+}
