@@ -1,6 +1,6 @@
 # SolutionDependencyAnalyzer
 
-There are two ways to use the tool: Command line or use the NuGet package in your project.
+There are two ways to use the tool: Command line or use the [NuGet package](https://www.nuget.org/packages/dependency-analyzer/) in your project.
 
 ## Command Line
 
@@ -27,7 +27,7 @@ This tool will create five files in the provided **OutputPath**:
 ## Nuget Dependency
 
 ### Installation
-Add the dependency-analyzer NuGet package to your project
+Add the [dependency-analyzer NuGet package](https://www.nuget.org/packages/dependency-analyzer/) to your project
 
 ### Usage
 Create a `DependencyAnalyzer` and call it, with `Solution containing the full solution path`: 
