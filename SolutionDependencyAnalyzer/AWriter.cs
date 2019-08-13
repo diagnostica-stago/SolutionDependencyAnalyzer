@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SolutionDependencyAnalyzer
+﻿namespace SolutionDependencyAnalyzer
 {
     public abstract class AWriter
     {

@@ -18,7 +18,7 @@ namespace SolutionDependencyAnalyzer
         public ConcurrentDictionary<string, string> PackageResults { get; } = new ConcurrentDictionary<string, string>();
 
         /// <summary>
-        /// A dictionary in which the key is a project, and the values are its dependencies
+        /// A dictionary in which the key is a project, and the values are its project dependencies
         /// </summary>
         public ConcurrentDictionary<string, IList<string>> ProjectResults { get; } = new ConcurrentDictionary<string, IList<string>>();
 
