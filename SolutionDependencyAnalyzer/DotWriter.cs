@@ -38,14 +38,14 @@ namespace SolutionDependencyAnalyzer
             {
                 await file.WriteLineAsync($"digraph \"{graphTitle}\" {{").ConfigureAwait(false);
                 await file.WriteLineAsync("splines=ortho;").ConfigureAwait(false);
-                foreach (var kvp in projectDependencies)
+                foreach (var (project, dependencies) in projectDependencies)
                 {
                     // if edges a -> b and b -> c exist, remove a -> c to have a readable graph
-                    var toExclude = kvp.Value.SelectMany(v => projectDependencies.ContainsKey(v) ? projectDependencies[v] : new List<string>()).Distinct();
+                    var toExclude = dependencies.SelectMany(v => projectDependencies.ContainsKey(v) ? projectDependencies[v] : new List<string>()).Distinct();
 
-                    foreach (var dependency in kvp.Value.Except(toExclude))
+                    foreach (var dependency in dependencies.Except(toExclude))
                     {
-                        await file.WriteLineAsync($"\"{kvp.Key}\" -> \"{dependency}\"").ConfigureAwait(false);
+                        await file.WriteLineAsync($"\"{project}\" -> \"{dependency}\"").ConfigureAwait(false);
                     }
                 }
                 await file.WriteLineAsync("}").ConfigureAwait(false);

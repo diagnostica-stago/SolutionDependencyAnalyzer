@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using NuGet.Configuration;
+using NuGet.Protocol;
+using NuGet.Protocol.Core.Types;
 
 namespace SolutionDependencyAnalyzer
 {
@@ -18,6 +22,16 @@ namespace SolutionDependencyAnalyzer
         /// <param name="packages">The packages to write</param>
         public async Task WritePackages(IDictionary<string, string> packages)
         {
+            if (packages == null || !packages.Any())
+            {
+                return;
+            }
+            var providers = new List<Lazy<INuGetResourceProvider>>();
+            providers.AddRange(Repository.Provider.GetCoreV3());
+            var packageSource = new PackageSource("https://api.nuget.org/v3/index.json");
+            var sourceRepository = new SourceRepository(packageSource, providers);
+            var packageSearchResource = await sourceRepository.GetResourceAsync<PackageSearchResource>().ConfigureAwait(false);
+
             var fileName = Path.Combine(OutputPath, "packages.md");
             if (File.Exists(fileName))
             {
@@ -26,9 +40,19 @@ namespace SolutionDependencyAnalyzer
             using (var file = File.CreateText(fileName))
             {
                 await file.WriteLineAsync("# Nuget dependencies").ConfigureAwait(false);
-                foreach (var package in packages.Select(kvp => kvp.Key + " " + kvp.Value))
+                foreach (var (packageId, version) in packages.OrderBy(p => p.Key))
                 {
-                    await file.WriteLineAsync($" - {package}").ConfigureAwait(false);
+                    var searchMetadata = await packageSearchResource.SearchAsync(packageId, new SearchFilter(true),0, 1, null, CancellationToken.None).ConfigureAwait(false);
+                    var metadata = searchMetadata.FirstOrDefault();
+                    if (metadata != null && metadata.Identity.Id == packageId && !string.IsNullOrWhiteSpace(metadata.ProjectUrl?.ToString()))
+                    {
+                        var url = metadata.ProjectUrl?.ToString();
+                        await file.WriteLineAsync($" - [{packageId}]({url}) {version}").ConfigureAwait(false);
+                    }
+                    else
+                    {
+                       await file.WriteLineAsync($" - {packageId} {version}").ConfigureAwait(false);
+                    }
                 }
             }
         }
@@ -60,7 +84,7 @@ namespace SolutionDependencyAnalyzer
             await WriteDependencyFile(projectsByPackage, "projectsByPackage.md", "Project dependencies by package").ConfigureAwait(false);
         }
 
-        private async Task WriteDependencyFile(IDictionary<string, IList<string>> projectsByPackage, string fileName, string title)
+        private async Task WriteDependencyFile(IDictionary<string, IList<string>> dependencies, string fileName, string title)
         {
             var filePath = Path.Combine(OutputPath, fileName);
             if (File.Exists(filePath))
@@ -70,16 +94,15 @@ namespace SolutionDependencyAnalyzer
             using (var file = File.CreateText(filePath))
             {
                 await file.WriteLineAsync($"# {title}").ConfigureAwait(false);
-                foreach (var kvp in projectsByPackage)
+                foreach (var (node, leafs) in dependencies.OrderBy(t => t.Key))
                 {
-                    await file.WriteLineAsync($"### {kvp.Key}").ConfigureAwait(false);
-                    foreach (var project in kvp.Value)
+                    await file.WriteLineAsync($"### {node}").ConfigureAwait(false);
+                    foreach (var leaf in leafs.OrderBy(v => v))
                     {
-                        await file.WriteLineAsync($" - {project}").ConfigureAwait(false);
+                        await file.WriteLineAsync($" - {leaf}").ConfigureAwait(false);
                     }
                 }
             }
         }
-
     }
 }

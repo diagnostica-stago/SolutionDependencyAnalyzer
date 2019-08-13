@@ -33,7 +33,7 @@ namespace SolutionDependencyAnalyzer
         public ConcurrentDictionary<string, IList<string>> ProjectsByPackage { get; private set; } = new ConcurrentDictionary<string, IList<string>>();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="solutionPath">The full solution path</param>
         public DependencyAnalyzer(string solutionPath)
@@ -76,15 +76,12 @@ namespace SolutionDependencyAnalyzer
                 Console.WriteLine($"Building Project {projectName}");
                 var results = project.Value.Build().FirstOrDefault();
                 PackagesByProject.TryAdd(projectName, new List<string>());
-                foreach (var kvp in results.PackageReferences.Where(p => p.Value.ContainsKey("Version")))
+                foreach (var (packageId, attributes) in results.PackageReferences.Where(p => p.Value.ContainsKey("Version")))
                 {
-                    PackagesByProject[projectName].Add(kvp.Key + " " + kvp.Value["Version"]);
-                    PackageResults.TryAdd(kvp.Key, kvp.Value["Version"]);
+                    PackagesByProject[projectName].Add(packageId + " " + attributes["Version"]);
+                    PackageResults.TryAdd(packageId, attributes["Version"]);
                 }
-                foreach (var kvp in results.ProjectReferences)
-                {
-                    ProjectResults.TryAdd(projectName, results.ProjectReferences.Select(p => Path.GetFileNameWithoutExtension(p)).ToList());
-                }
+                ProjectResults.TryAdd(projectName, results.ProjectReferences.Select(Path.GetFileNameWithoutExtension).ToList());
                 Console.WriteLine($"Project {projectName} done");
             }).ConfigureAwait(false);
         }
@@ -92,15 +89,15 @@ namespace SolutionDependencyAnalyzer
         private ConcurrentDictionary<string, IList<string>> GetProjectsByPackage(ConcurrentDictionary<string, IList<string>> packageDepByProject)
         {
             var result = new ConcurrentDictionary<string, IList<string>>();
-            foreach (var kvp in packageDepByProject)
+            foreach (var (project, packages) in packageDepByProject)
             {
-                foreach (var package in kvp.Value)
+                foreach (var package in packages)
                 {
                     if (!result.ContainsKey(package))
                     {
                         result.TryAdd(package, new List<string>());
                     }
-                    result[package].Add(kvp.Key);
+                    result[package].Add(project);
                 }
             }
             return result;

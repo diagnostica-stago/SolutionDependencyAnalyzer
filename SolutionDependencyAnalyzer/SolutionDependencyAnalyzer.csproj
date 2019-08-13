@@ -14,6 +14,7 @@
     <Description>Solution Dependencies analyzer for .NET</Description>
     <Copyright>2019 Stago</Copyright>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <Company>Stago</Company>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NuGet.Protocol.Core.v3" Version="4.2.0" />
   </ItemGroup>
 
 </Project>
