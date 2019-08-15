@@ -18,7 +18,8 @@ namespace SolutionDependencyAnalyzer
         /// </summary>
         /// <param name="projectDependencies">A dictionary in which the key is a project, and the values are its dependencies</param>
         /// <param name="graphTitle">Title of the generated dot graph</param>
-        public async Task WriteProjectDependencyGraph(IDictionary<string, IList<string>> projectDependencies, string graphTitle)
+        /// <param name="createImage">true if the graph image should be created</param>
+        public async Task WriteProjectDependencyGraph(IDictionary<string, IList<string>> projectDependencies, string graphTitle, bool createImage)
         {
             if (projectDependencies == null)
             {
@@ -51,10 +52,13 @@ namespace SolutionDependencyAnalyzer
                 await file.WriteLineAsync("}").ConfigureAwait(false);
             }
 
-            ProcessStartInfo startInfo = new ProcessStartInfo("dot.exe");
-            startInfo.Arguments = $"-Tpng {fileName} -o {graphFileName}";
-            var process = Process.Start(startInfo);
-            process.WaitForExit();
+            if (createImage)
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo("dot.exe");
+                startInfo.Arguments = $"-Tpng {fileName} -o {graphFileName}";
+                var process = Process.Start(startInfo);
+                process.WaitForExit();
+            }
         }
     }
 }

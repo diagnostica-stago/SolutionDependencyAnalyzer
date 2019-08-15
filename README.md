@@ -15,6 +15,9 @@ dotnet tool install --global dependency-analyzer
 dependency-analyzer <SolutionFullPath> <OutputPath>
 ```
 
+##### Options
+- `-g` or `--create-graph-image` : runs dot at the end of the process to create a png image of the dot graph generated. **This option has a prerequisite: dot must be installed and in the PATH**. To do so, you can run this command for [Chocolatey](https://chocolatey.org/):  `choco install graphviz` or [get dot there](https://graphviz.org/).
+
 ### Files Created
 
 This tool will create five files in the provided **OutputPath**:

@@ -14,6 +14,9 @@ namespace SolutionDependencyAnalyzer
         [Argument(1, Description = "The output path for file results")]
         public string OutputPath { get; set; }
 
+        [Option("-g|--create-graph-image", Description = "Runs dot to create a png from the dotfile. Make sure to have dot installed before activating this option")]
+        public bool WriteGraph { get; set; }
+
         public static Task<int> Main(string[] args)
         {
             return CommandLineApplication.ExecuteAsync<Program>(args);
@@ -44,7 +47,7 @@ namespace SolutionDependencyAnalyzer
             var dotWriter = new DotWriter(OutputPath);
             var tasks = new Task[]
             {
-                dotWriter.WriteProjectDependencyGraph(dependencyAnalyzer.ProjectResults, Path.GetFileNameWithoutExtension(Solution)),
+                dotWriter.WriteProjectDependencyGraph(dependencyAnalyzer.ProjectResults, Path.GetFileNameWithoutExtension(Solution), WriteGraph),
                 markdownWriter.WritePackages(dependencyAnalyzer.PackageResults),
                 markdownWriter.WritePackagesDependenciesByProject(dependencyAnalyzer.PackagesByProject),
                 markdownWriter.WriteProjectDependenciesByPackage(dependencyAnalyzer.ProjectsByPackage)
