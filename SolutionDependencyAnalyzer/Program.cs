@@ -53,8 +53,11 @@ namespace SolutionDependencyAnalyzer
                 markdownWriter.WriteProjectDependenciesByPackage(dependencyAnalyzer.ProjectsByPackage)
             };
             await Task.WhenAll(tasks).ConfigureAwait(false);
-            Console.WriteLine("Done. Press any key to exit.");
+            Console.WriteLine("Done.");
+#if DEBUG
+            Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
+#endif
         }
     }
 }
