@@ -9,9 +9,11 @@ namespace SolutionDependencyAnalyzer
     public class Program
     {
         [Argument(0, Description = "The solution file to analyze.")]
+        [Required]
         public string Solution { get; set; }
 
         [Argument(1, Description = "The output path for file results")]
+        [Required]
         public string OutputPath { get; set; }
 
         [Option("-g|--create-graph-image", Description = "Runs dot to create a png from the dotfile. Make sure to have dot installed before activating this option")]
