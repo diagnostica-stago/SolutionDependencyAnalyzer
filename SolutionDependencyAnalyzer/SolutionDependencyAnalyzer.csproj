@@ -15,6 +15,11 @@
     <Copyright>2019 Stago</Copyright>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <Company>Stago</Company>
+    <PackageProjectUrl>https://github.com/diagnostica-stago/SolutionDependencyAnalyzer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/diagnostica-stago/SolutionDependencyAnalyzer.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>master</RepositoryBranch>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
