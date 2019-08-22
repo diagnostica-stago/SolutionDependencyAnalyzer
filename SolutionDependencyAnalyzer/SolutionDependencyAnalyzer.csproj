@@ -6,7 +6,7 @@
     <ToolCommandName>dependency-analyzer</ToolCommandName>
     <PackAsTool>True</PackAsTool>
     <OutputType>Exe</OutputType>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <PackageId>dependency-analyzer</PackageId>
     <Title>dependency-analyzer</Title>
     <Authors>TRadioyes</Authors>
