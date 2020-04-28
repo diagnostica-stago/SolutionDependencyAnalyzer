@@ -68,7 +68,7 @@ namespace SolutionDependencyAnalyzer
             ProjectsByPackage = GetProjectsByPackage(PackagesByProject);
         }
 
-        private async Task AnalyzeProject(KeyValuePair<string, ProjectAnalyzer> project)
+        private async Task AnalyzeProject(KeyValuePair<string, IProjectAnalyzer> project)
         {
             await Task.Run(() =>
             {
