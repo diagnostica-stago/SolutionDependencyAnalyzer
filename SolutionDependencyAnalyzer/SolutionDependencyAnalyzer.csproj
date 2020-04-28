@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <ToolCommandName>dependency-analyzer</ToolCommandName>
     <PackAsTool>True</PackAsTool>
     <OutputType>Exe</OutputType>
@@ -20,6 +20,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryBranch>master</RepositoryBranch>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
