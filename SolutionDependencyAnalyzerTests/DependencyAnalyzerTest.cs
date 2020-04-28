@@ -18,7 +18,8 @@ namespace SolutionDependencyAnalyzerTests
         {
             // TODO: Create a solution just for the tests?
             var currentDir = AppContext.BaseDirectory;
-            var solutionDir = Path.GetFullPath(Path.Combine(currentDir, @"..\..\..\..\"));
+            var goUp = string.Format("..{0}..{0}..{0}..{0}", Path.DirectorySeparatorChar);
+            var solutionDir = Path.GetFullPath(Path.Combine(currentDir, goUp));
             var solution = Path.Combine(solutionDir, "SolutionDependencyAnalyzer.sln");
             var analyzer = new DependencyAnalyzer(solution);
             await analyzer.AnalyzeAsync();
