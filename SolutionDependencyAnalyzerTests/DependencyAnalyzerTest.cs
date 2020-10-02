@@ -16,7 +16,6 @@ namespace SolutionDependencyAnalyzerTests
         [TestMethod]
         public async Task BasicSolutionAnalysis()
         {
-            // TODO: Create a solution just for the tests?
             var currentDir = AppContext.BaseDirectory;
             var goUp = string.Format("..{0}..{0}..{0}..{0}", Path.DirectorySeparatorChar);
             var solutionDir = Path.GetFullPath(Path.Combine(currentDir, goUp));

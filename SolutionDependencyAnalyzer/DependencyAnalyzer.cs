@@ -74,14 +74,14 @@ namespace SolutionDependencyAnalyzer
             {
                 var projectName = Path.GetFileNameWithoutExtension(project.Key);
                 Console.WriteLine($"Building Project {projectName}");
-                var results = project.Value.Build().FirstOrDefault();
+                var results = project.Value.Build().First();
                 PackagesByProject.TryAdd(projectName, new List<string>());
                 foreach (var (packageId, attributes) in results.PackageReferences.Where(p => p.Value.ContainsKey("Version")))
                 {
                     PackagesByProject[projectName].Add(packageId + " " + attributes["Version"]);
                     PackageResults.TryAdd(packageId, attributes["Version"]);
                 }
-                ProjectResults.TryAdd(projectName, results.ProjectReferences.Select(Path.GetFileNameWithoutExtension).ToList());
+                ProjectResults.TryAdd(projectName, results.ProjectReferences.Select(s => Path.GetFileNameWithoutExtension(s!)).ToList());
                 Console.WriteLine($"Project {projectName} done");
             }).ConfigureAwait(false);
         }

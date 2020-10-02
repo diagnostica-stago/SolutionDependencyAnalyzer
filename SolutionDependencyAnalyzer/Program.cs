@@ -10,11 +10,11 @@ namespace SolutionDependencyAnalyzer
     {
         [Argument(0, Description = "The solution file to analyze.")]
         [Required]
-        public string Solution { get; set; }
+        public string? Solution { get; set; }
 
         [Argument(1, Description = "The output path for file results")]
         [Required]
-        public string OutputPath { get; set; }
+        public string? OutputPath { get; set; }
 
         [Option("-g|--create-graph-image", Description = "Runs dot to create a png from the dotfile. Make sure to have dot installed before activating this option")]
         public bool WriteGraph { get; set; }
@@ -42,14 +42,14 @@ namespace SolutionDependencyAnalyzer
 
         private async Task OnExecuteAsync()
         {
-            var dependencyAnalyzer = new DependencyAnalyzer(Solution);
+            var dependencyAnalyzer = new DependencyAnalyzer(Solution!);
             await dependencyAnalyzer.AnalyzeAsync().ConfigureAwait(false);
 
-            var markdownWriter = new MarkdownWriter(OutputPath);
-            var dotWriter = new DotWriter(OutputPath);
+            var markdownWriter = new MarkdownWriter(OutputPath!);
+            var dotWriter = new DotWriter(OutputPath!);
             var tasks = new Task[]
             {
-                dotWriter.WriteProjectDependencyGraph(dependencyAnalyzer.ProjectResults, Path.GetFileNameWithoutExtension(Solution), WriteGraph),
+                dotWriter.WriteProjectDependencyGraph(dependencyAnalyzer.ProjectResults, Path.GetFileNameWithoutExtension(Solution!), WriteGraph),
                 markdownWriter.WritePackages(dependencyAnalyzer.PackageResults),
                 markdownWriter.WritePackagesDependenciesByProject(dependencyAnalyzer.PackagesByProject),
                 markdownWriter.WriteProjectDependenciesByPackage(dependencyAnalyzer.ProjectsByPackage)
