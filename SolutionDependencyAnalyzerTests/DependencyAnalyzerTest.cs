@@ -11,7 +11,7 @@ namespace SolutionDependencyAnalyzerTests
     {
         /// <summary>
         /// Very basic test, to ensure DependencyAnalyzer is not completely broken
-        /// It will be hard enogh to maintain as is, so I didn't test the contents of the various properties
+        /// It will be hard enough to maintain as is, so I didn't test the contents of the various properties
         /// </summary>
         [TestMethod]
         public async Task BasicSolutionAnalysis()
