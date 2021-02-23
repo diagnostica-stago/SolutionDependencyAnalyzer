@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - uses: actions/checkout@v2.3.4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1.7.2
       with:
-        dotnet-version: 3.1.402
+        dotnet-version: 5.0.3
     - name: Install dependencies
       run: dotnet restore
     - name: Build
