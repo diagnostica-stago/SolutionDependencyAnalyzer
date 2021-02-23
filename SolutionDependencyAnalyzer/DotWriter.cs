@@ -54,7 +54,7 @@ namespace SolutionDependencyAnalyzer
 
             if (createImage)
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo("dot.exe");
+                ProcessStartInfo startInfo = new ProcessStartInfo("dot");
                 startInfo.Arguments = $"-Tpng {fileName} -o {graphFileName}";
                 var process = Process.Start(startInfo);
                 process.WaitForExit();
