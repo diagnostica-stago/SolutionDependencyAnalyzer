@@ -1,0 +1,32 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: MSTest.TestAdapter
+    versions:
+    - 2.2.1
+    - 2.2.2
+  - dependency-name: MSTest.TestFramework
+    versions:
+    - 2.2.1
+    - 2.2.2
+  - dependency-name: Buildalyzer
+    versions:
+    - 3.2.0
+  - dependency-name: McMaster.Extensions.CommandLineUtils
+    versions:
+    - 3.1.0
+  - dependency-name: Microsoft.CodeAnalysis.FxCopAnalyzers
+    versions:
+    - 3.3.2
+  - dependency-name: Microsoft.CodeAnalysis.PublicApiAnalyzers
+    versions:
+    - 3.3.2
+  - dependency-name: Microsoft.NET.Test.Sdk
+    versions:
+    - 16.8.3
