@@ -6,8 +6,9 @@
     <ToolCommandName>dependency-analyzer</ToolCommandName>
     <PackAsTool>True</PackAsTool>
     <OutputType>Exe</OutputType>
-    <Version>0.7.0</Version>
+    <Version>0.7.1</Version>
     <PackageId>dependency-analyzer</PackageId>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
     <Title>dependency-analyzer</Title>
     <Authors>TRadioyes</Authors>
     <Owners>Stago</Owners>
@@ -36,6 +37,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NuGet.Protocol.Core.v3" Version="4.2.0" />
+      <None Include="..\README.md">
+          <Pack>True</Pack>
+          <PackagePath>\</PackagePath>
+      </None>
   </ItemGroup>
 
 </Project>
