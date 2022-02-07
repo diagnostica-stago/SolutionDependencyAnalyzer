@@ -6,13 +6,13 @@
     <ToolCommandName>dependency-analyzer</ToolCommandName>
     <PackAsTool>True</PackAsTool>
     <OutputType>Exe</OutputType>
-    <Version>0.6.0</Version>
+    <Version>0.7.0</Version>
     <PackageId>dependency-analyzer</PackageId>
     <Title>dependency-analyzer</Title>
     <Authors>TRadioyes</Authors>
     <Owners>Stago</Owners>
     <Description>Solution Dependencies analyzer for .NET</Description>
-    <Copyright>2019 Stago</Copyright>
+    <Copyright>2022 Stago</Copyright>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <Company>Stago</Company>
     <PackageProjectUrl>https://github.com/diagnostica-stago/SolutionDependencyAnalyzer</PackageProjectUrl>
