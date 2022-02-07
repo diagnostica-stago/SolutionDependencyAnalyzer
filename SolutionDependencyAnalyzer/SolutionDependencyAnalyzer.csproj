@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <Version>0.7.1</Version>
     <PackageId>dependency-analyzer</PackageId>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Title>dependency-analyzer</Title>
     <Authors>TRadioyes</Authors>
     <Owners>Stago</Owners>
