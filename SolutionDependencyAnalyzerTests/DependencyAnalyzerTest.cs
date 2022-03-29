@@ -22,10 +22,10 @@ namespace SolutionDependencyAnalyzerTests
             var solution = Path.Combine(solutionDir, "SolutionDependencyAnalyzer.sln");
             var analyzer = new DependencyAnalyzer(solution);
             await analyzer.AnalyzeAsync();
-            Assert.IsTrue(analyzer.PackageResults.Count == 8);
-            Assert.IsTrue(analyzer.PackagesByProject.Count == 2);
-            Assert.IsTrue(analyzer.ProjectResults.Count == 2);
-            Assert.IsTrue(analyzer.ProjectsByPackage.Count == 8);
+            Assert.AreEqual(6, analyzer.PackageResults.Count);
+            Assert.AreEqual(2, analyzer.PackagesByProject.Count);
+            Assert.AreEqual(2, analyzer.ProjectResults.Count);
+            Assert.AreEqual(6, analyzer.ProjectsByPackage.Count);
         }
     }
 }
