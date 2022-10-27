@@ -20,7 +20,7 @@ namespace SolutionDependencyAnalyzer
         [Option("-g|--create-graph-image", Description = "Runs dot to create a png from the dotfile. Make sure to have dot installed before activating this option")]
         public bool WriteGraph { get; set; }
 
-        [Option("--exclude-test-projects", Description = "Excludes test projects from analysis. A test project is anything with \"test\" in its name.")]
+        [Option("-t|--exclude-test-projects", Description = "Excludes test projects from analysis. A test project is anything with \"test\" in its name.")]
         public bool ExcludeTestProjects { get; set; }
 
         [Option("-x|--exclude-project", Description = "Excludes a specific project from analysis")]
