@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Threading.Tasks;
@@ -18,6 +19,12 @@ namespace SolutionDependencyAnalyzer
 
         [Option("-g|--create-graph-image", Description = "Runs dot to create a png from the dotfile. Make sure to have dot installed before activating this option")]
         public bool WriteGraph { get; set; }
+
+        [Option("-t|--exclude-test-projects", Description = "Excludes test projects from analysis. A test project is anything with \"test\" in its name.")]
+        public bool ExcludeTestProjects { get; set; }
+
+        [Option("-x|--exclude-project", Description = "Excludes a specific project from analysis")]
+        public string[] ProjectsToExclude { get; set; }
 
         public static Task<int> Main(string[] args)
         {
@@ -43,7 +50,7 @@ namespace SolutionDependencyAnalyzer
         private async Task OnExecuteAsync()
         {
             var dependencyAnalyzer = new DependencyAnalyzer(Solution!);
-            await dependencyAnalyzer.AnalyzeAsync().ConfigureAwait(false);
+            await dependencyAnalyzer.AnalyzeAsync(ExcludeTestProjects, ProjectsToExclude).ConfigureAwait(false);
 
             var markdownWriter = new MarkdownWriter(OutputPath!);
             var dotWriter = new DotWriter(OutputPath!);
