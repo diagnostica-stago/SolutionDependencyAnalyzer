@@ -55,24 +55,30 @@ namespace SolutionDependencyAnalyzer
         /// - <see cref="PackagesByProject"/>
         /// - <see cref="ProjectsByPackage"/>
         /// </summary>
-        public async Task AnalyzeAsync()
+        public async Task AnalyzeAsync(bool excludeTestProjects, string[] projectsToExclude)
         {
             var analyzerManager = new AnalyzerManager(Solution);
             var tasks = new List<Task>();
             foreach (var project in analyzerManager.Projects)
             {
-                tasks.Add(AnalyzeProject(project));
+                tasks.Add(AnalyzeProject(project, excludeTestProjects, projectsToExclude));
             }
 
             await Task.WhenAll(tasks.ToArray()).ConfigureAwait(false);
             ProjectsByPackage = GetProjectsByPackage(PackagesByProject);
         }
 
-        private async Task AnalyzeProject(KeyValuePair<string, IProjectAnalyzer> project)
+        private async Task AnalyzeProject(KeyValuePair<string, IProjectAnalyzer> project, bool excludeTestProject, string[] projectsToExclude)
         {
             await Task.Run(() =>
             {
                 var projectName = Path.GetFileNameWithoutExtension(project.Key);
+                if (IsProjectExcluded(projectName, excludeTestProject, projectsToExclude))
+                {
+                    Console.WriteLine($"Project {projectName} was excluded");
+                    return;
+                }
+
                 Console.WriteLine($"Building Project {projectName}");
                 var results = project.Value.Build().First();
                 PackagesByProject.TryAdd(projectName, new List<string>());
@@ -84,6 +90,16 @@ namespace SolutionDependencyAnalyzer
                 ProjectResults.TryAdd(projectName, results.ProjectReferences.Select(s => Path.GetFileNameWithoutExtension(s!)).ToList());
                 Console.WriteLine($"Project {projectName} done");
             }).ConfigureAwait(false);
+        }
+
+        private static bool IsProjectExcluded(string projectName, bool excludeTestProjects, string[] projectsToExclude)
+        {
+            if (excludeTestProjects && projectName.Contains("test", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return true;
+            }
+
+            return projectsToExclude != null && projectsToExclude.Any(p => p.Equals(projectName, StringComparison.OrdinalIgnoreCase));
         }
 
         private ConcurrentDictionary<string, IList<string>> GetProjectsByPackage(ConcurrentDictionary<string, IList<string>> packageDepByProject)
